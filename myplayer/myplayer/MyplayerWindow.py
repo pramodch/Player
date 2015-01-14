@@ -5,7 +5,7 @@
 
 from locale import gettext as _
 
-from gi.repository import Gtk # pylint: disable=E0611
+from gi.repository import Gtk, Gst # pylint: disable=E0611
 import logging
 logger = logging.getLogger('myplayer')
 
@@ -13,9 +13,16 @@ from myplayer_lib import Window
 from myplayer.AboutMyplayerDialog import AboutMyplayerDialog
 from myplayer.PreferencesMyplayerDialog import PreferencesMyplayerDialog
 from quickly import prompts
+
+Gst.is_initialized() or Gst.init(None)
+
 from quickly.widgets.dictionary_grid import DictionaryGrid
 from quickly.widgets.media_player_box import MediaPlayerBox
+import sys
+
 import os
+
+
 
 # See myplayer_lib.Window.py for more details about how this class works
 class MyplayerWindow(Window):
@@ -27,10 +34,13 @@ class MyplayerWindow(Window):
 
         self.AboutDialog = AboutMyplayerDialog
         self.PreferencesDialog = PreferencesMyplayerDialog
-
+        
         self.openbutton = self.builder.get_object("openbutton")
         self.supported_video_formats = [".ogv", ".avi", ".mkv", ".mp4", ".flv"]
         self.supported_audio_formats = [".ogg", ".mp3", ".wav"]
+        self.player = MediaPlayerBox(True)
+        self.player.show()
+        self.ui.paned1.add2(self.player)
 
     def on_openbutton_clicked(self, widget, data = None):
       response, path = prompts.choose_directory()
