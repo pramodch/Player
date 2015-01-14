@@ -1,0 +1,8 @@
+[Desktop Entry]
+_Name=Myplayer
+_Comment=Myplayer application
+Categories=GNOME;Utility;
+Exec=myplayer
+Icon=myplayer
+Terminal=false
+Type=Application
